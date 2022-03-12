@@ -1,0 +1,31 @@
+{
+  "name": "pregnancy-wheel-client",
+  "version": "0.0.1",
+  "description": "Pregnancy Wheel Client",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab_2:pregnancy-wheel/pregnancy-wheel-client.git"
+  },
+  "author": "Quentin Burg",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^17.0.40",
+    "@types/react-dom": "^17.0.13",
+    "@vitejs/plugin-react": "^1.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.2",
+    "redux-loop": "^6.2.0",
+    "styled-components": "^5.3.3",
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6"
+  }
+}
