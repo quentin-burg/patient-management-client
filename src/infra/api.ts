@@ -2,50 +2,17 @@ import { Cmd } from 'redux-loop';
 
 type Method = 'GET' | 'POST' | 'PUT';
 
-interface Action<Req, Com, Roll> {
-  request: Req;
-  commit: Com;
-  rollback: Roll;
-}
-
 interface Request {
   type: string;
   path: string;
   method: Method;
+  body?: any;
 }
 
-interface Commit {
-  type: string;
-  payload: unknown;
-}
-
-interface Rollback {
-  type: string;
-  error: Error;
-}
-
-type Actions = Action<Request, Commit, Rollback>;
-
-const createRequestAction = (type: string, path: string, method: Method): Request => ({
-  type,
-  path,
-  method,
-});
-
-const createCommitAction = (type: string, payload: unknown): Commit => ({
-  type,
-  payload,
-});
-
-const createRollbackAction = (type: string, error: Error): Rollback => ({
-  type,
-  error,
-});
-
-export const cmdFetch = (action: Action<Request, Commit, Rollback>) =>
+export const cmdFetch = (action: any) =>
   Cmd.run(
     () => {
-      makeRequest(action.request);
+      return makeRequest(action.meta);
     },
     {
       successActionCreator: payload => ({ ...action.commit, payload }),
@@ -54,7 +21,14 @@ export const cmdFetch = (action: Action<Request, Commit, Rollback>) =>
   );
 
 const makeRequest = (request: Request) => {
-  return fetch(request.path, { method: request.method })
+  console.log('req', request);
+  const body = request.body ? JSON.stringify(request.body) : null;
+  const headers = { 'Content-Type': 'application/json' };
+  return fetch(import.meta.env.VITE_SERVER_URI + request.path, {
+    method: request.method,
+    body,
+    headers: body ? { ...headers, 'Content-Length': `${body.length}` } : headers,
+  })
     .then(checkStatus)
     .then(response => response.json());
 };
