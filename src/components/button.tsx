@@ -1,35 +1,32 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
-  display: flex;
-`;
-
-const ButtonStyle = styled.button`
-  background: #aaa;
-  width: 125px;
+const ButtonStyle = styled.button<{ size?: number }>`
+  background: ${props => (props.disabled ? '#d6d6d6 ' : '#aaa')};
+  width: ${props => (props.size ? `${props.size}px` : '125px')};
   padding-top: 5px;
   padding-bottom: 5px;
-  color: white;
+  color: ${props => (props.disabled ? 'white' : 'black')};
   border-radius: 4px;
-  border: #000 1px solid;
+  border: ${props => (props.disabled ? 'white' : '#000')} 1px solid;
 
   margin-top: 40px;
   margin-bottom: 20px;
   font-weight: 800;
   font-size: 0.8em;
-  color: black;
 `;
 
 interface ButtonProps {
   onSubmit(): void;
   title: string;
+  size?: number;
+  disabled: boolean | undefined;
 }
 
-const Button = ({ onSubmit, title }: ButtonProps) => {
+const Button = ({ disabled, onSubmit, title, size }: ButtonProps) => {
   return (
-    <Container>
-      <ButtonStyle onClick={onSubmit}>{title}</ButtonStyle>
-    </Container>
+    <ButtonStyle disabled={disabled} size={size} onClick={onSubmit}>
+      {title}
+    </ButtonStyle>
   );
 };
 

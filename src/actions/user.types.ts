@@ -14,6 +14,8 @@ export type RegisterBody = {
   lastname: string;
   email: string;
   password: string;
+  isPatient: boolean;
+  isProfessional: boolean;
 };
 
 export type RegisterRequest = {
@@ -48,4 +50,23 @@ export type LoginRequest = {
 
 export type Login = LoginRequest | LoginCommit | LoginRollback;
 
-export type UserActions = Login | Register;
+export type Logout = {
+  type: 'LOGOUT';
+};
+
+type GetUserByIdCommit = { type: 'GET_USER_BY_ID_COMMIT'; payload?: { user: User } };
+type GetUserByIdRollback = { type: 'GET_USER_BY_ID_ROLLBACK' };
+
+export type GetUserByIdRequest = {
+  type: 'GET_USER_BY_ID_REQUEST';
+  meta: {
+    path: string;
+    method: 'GET';
+  };
+  commit: GetUserByIdCommit;
+  rollback: GetUserByIdRollback;
+};
+
+export type GetUserById = GetUserByIdRequest | GetUserByIdCommit | GetUserByIdRollback;
+
+export type UserActions = Login | Register | Logout | GetUserById;

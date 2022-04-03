@@ -1,58 +1,84 @@
-import { useState } from 'react';
+import Button from './button';
 import styled from 'styled-components';
+import { useState } from 'react';
+import Input from './input';
+import Choice from './choice';
 
-const Container = styled.div``;
-
-const Button = styled.button`
-  background: #aaa;
-  width: 125px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  color: white;
-  border-radius: 4px;
-  border: #000 1px solid;
-
-  margin-top: 40px;
-  margin-bottom: 20px;
-  font-weight: 800;
-  font-size: 0.8em;
-  color: black;
-`;
-
-const ButtonContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  justify-content: space-around;
-`;
-
-const Label = styled.div`
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
   text-align: center;
+  margin: 200px auto;
+  background-color: #87cdfa;
+  padding: 20px;
+  width: 300px;
+  border-radius: 15px;
 `;
 
-const RegisterNotDefined = ({ setUserType }) => (
-  <>
-    <Label>Vous êtes un ...</Label>
-    <ButtonContainer>
-      <Button onClick={() => setUserType('professional')}>Professionnel</Button>
-      <Button onClick={() => setUserType('patient')}>Patient</Button>
-    </ButtonContainer>
-  </>
-);
+const PasswordContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex: 1;
+`;
 
-const RegisterProfessional = () => <>PRO</>;
-const RegisterPatient = () => <>PATIENT</>;
+interface RegisterProps {
+  register({
+    email,
+    password,
+    firstname,
+    lastname,
+    isPatient,
+    isProfessional,
+  }: {
+    email: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+    isProfessional: boolean;
+    isPatient: boolean;
+  }): void;
+}
 
-const Register = () => {
-  const [userType, setUserType] = useState<'professional' | 'patient' | undefined>();
-
+const Register = ({ register }: RegisterProps) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [firstname, setFirstname] = useState<string>('');
+  const [lastname, setLastname] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [role, setRole] = useState<'professional' | 'patient'>('professional');
+  const disabled = !email || !password || !firstname || !lastname;
   return (
     <Container>
-      {userType === 'professional' ? (
-        <RegisterProfessional />
-      ) : userType === 'patient' ? (
-        <RegisterPatient />
-      ) : (
-        <RegisterNotDefined setUserType={setUserType} />
-      )}
+      <Input type="email" id="email" onChange={setEmail} value={email} placeholder="xyz@gmail.com" label="Email" />
+      <PasswordContainer>
+        <Input
+          id="password"
+          type={showPassword ? 'text' : 'password'}
+          onChange={setPassword}
+          value={password}
+          label="Mot de passe"
+        />
+        <Button disabled={false} size={45} title="Voir" onSubmit={() => setShowPassword(!showPassword)} />
+      </PasswordContainer>
+      <Input type="text" id="firstname" onChange={setFirstname} value={firstname} label="Prénom" />
+      <Input type="text" id="lastname" onChange={setLastname} value={lastname} label="Nom" />
+      <Choice role={role} onChange={setRole} />
+      <Button
+        disabled={disabled}
+        title="S'inscrire"
+        onSubmit={() =>
+          register({
+            email,
+            password,
+            firstname,
+            lastname,
+            isPatient: role === 'patient',
+            isProfessional: role === 'professional',
+          })
+        }
+      />
     </Container>
   );
 };

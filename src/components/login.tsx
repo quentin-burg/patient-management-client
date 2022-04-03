@@ -1,8 +1,7 @@
 import Button from './button';
-import EmailInput from './email-input';
-import PasswordInput from './password-input';
 import styled from 'styled-components';
 import { useState } from 'react';
+import Input from './input';
 
 const Container = styled.div`
   display: flex;
@@ -26,9 +25,17 @@ const Login = ({ login }: LoginProps) => {
   const [password, setPassword] = useState<string>('');
   return (
     <Container>
-      <EmailInput email={email} onChange={setEmail} />
-      <PasswordInput password={password} onChange={setPassword} />
-      <Button title="Se connecter" onSubmit={() => login({ email, password })} />
+      <Input
+        required
+        type="email"
+        id="email"
+        onChange={setEmail}
+        value={email}
+        placeholder="xyz@gmail.com"
+        label="Email"
+      />
+      <Input required type="password" id="password" onChange={setPassword} value={password} label="Mot de passe" />
+      <Button title="Se connecter" onSubmit={() => login({ email, password })} disabled={false} />
     </Container>
   );
 };

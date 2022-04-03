@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface HomeProps {
@@ -6,8 +7,17 @@ interface HomeProps {
 
 const Home = ({ isConnected }: HomeProps) => {
   const navigate = useNavigate();
-  console.log('is', isConnected);
-  return isConnected ? <div>Welcome !</div> : <div onClick={() => navigate('/login')}>Connexion</div>;
+
+  useEffect(() => {
+    if (isConnected) navigate('/files');
+  }, [isConnected]);
+
+  return (
+    <>
+      <button onClick={() => navigate('login')}>Connexion</button>
+      <button onClick={() => navigate('register')}>Créer un compte</button>
+    </>
+  );
 };
 
 export default Home;

@@ -22,27 +22,32 @@ const Label = styled.label`
   font-size: 14px;
 `;
 
-interface EmailInputProps {
-  onChange(text: string): void;
-  email: string;
+interface InputProps {
+  onChange(value: unknown): void;
+  value: string | number;
+  type: 'email' | 'password' | 'text' | 'number';
+  placeholder?: string;
+  label: string;
+  id: string;
+  required?: boolean;
 }
 
-const EmailInput = ({ onChange, email }: EmailInputProps) => {
+const Input = ({ onChange, value, type, placeholder, label, id, required }: InputProps) => {
   return (
     <Container>
-      <Label htmlFor="email">Email</Label>
+      <Label htmlFor={id}>{`${label} ${required ? '*' : ''}`}</Label>
       <InputStyle
-        type={'email'}
-        id="email"
-        pattern=".+@.+.com"
+        type={type}
+        id={id}
         size={30}
         required
-        placeholder="xzz@gmail.com"
+        min={0}
+        placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
-        value={email}
+        value={value}
       />
     </Container>
   );
 };
 
-export default EmailInput;
+export default Input;
