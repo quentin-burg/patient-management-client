@@ -2,19 +2,21 @@
   "name": "pregnancy-wheel-client",
   "version": "0.0.1",
   "description": "Pregnancy Wheel Client",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "vite preview"
   },
   "repository": {
     "type": "git",
     "url": "git@gitlab_2:pregnancy-wheel/pregnancy-wheel-client.git"
   },
   "author": "Quentin Burg",
-  "license": "ISC",
+  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
